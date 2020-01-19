@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Jobsity.Web.Application.Notifications;
+using Jobsity.Events;
 
 namespace Jobsity.Web.Application.Publishers
 {
-    public interface IPublisher
+	public interface IPublisher
     {
-        Task PublishAsync(Notification notification);
+        Task PublishAsync(Event @event);
     }
 }

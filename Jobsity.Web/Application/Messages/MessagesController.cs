@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Jobsity.Events;
+using Jobsity.Events.Messages;
 using Jobsity.Web.Application.Messages.Requests;
-using Jobsity.Web.Application.Notifications;
+using Jobsity.Web.Application.Messages.Responses;
 using Jobsity.Web.Application.Publishers;
 using Jobsity.Web.Application.Users;
 using Jobsity.Web.Data;
@@ -32,18 +34,21 @@ namespace Jobsity.Web.Application.Messages
 		[HttpGet]
 		public async Task<ActionResult> GetMessages([FromQuery] GetMessagesRequest request)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest();
-			}
-
 			var messages = await _dbContext.Messages
 										.Include(message => message.User)
 										.OrderByDescending(message => message.Timestamp)
 										.Take(request.Limit)
 										.ToListAsync();
 
-			return Ok(messages);
+			var response = messages.Select(message => new GetMessageResponse
+			{
+				Text = message.Text,
+				Timestamp = message.Timestamp,
+				UserId = message.User.Id,
+				UserName = message.User.UserName
+			});
+
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -65,14 +70,23 @@ namespace Jobsity.Web.Application.Messages
 
 			await _dbContext.SaveChangesAsync();
 
-			var notification = new MessagePostedNotification(message);
+			var @event = CreateMessagePostedEvent(message);
 
 			foreach (var publisher in _publishers)
 			{
-				await publisher.PublishAsync(notification);
+				await publisher.PublishAsync(@event);
 			}
 
 			return Ok();
 		}
+
+		public Event CreateMessagePostedEvent(Message message) =>
+			new MessagePostedEvent
+			{
+				Text = message.Text,
+				UserId = message.User.Id,
+				UserName = message.User.UserName,
+				Timestamp = message.Timestamp
+			};
 	}
 }

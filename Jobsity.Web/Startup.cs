@@ -1,3 +1,4 @@
+using Jobsity.Events.Messages;
 using Jobsity.Web.Application;
 using Jobsity.Web.Application.Publishers;
 using Jobsity.Web.Application.Users;
@@ -8,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Rebus.Config;
+using Rebus.Routing.TypeBased;
+using Rebus.ServiceProvider;
 
 namespace Jobsity.Web
 {
@@ -31,6 +35,13 @@ namespace Jobsity.Web
 			services.AddSignalR();
 			services.AddTransient<IPublisher, WebPublisher>();
 			services.AddTransient<IPublisher, EventPublisher>();
+			services.AddRebus(configure =>
+			{
+				return configure
+						.Logging(l => l.ColoredConsole())
+						.Transport(t => t.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], "events"))
+						.Routing(r => r.TypeBased().Map<MessagePostedEvent>("events"));
+			});
 		}
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -59,6 +70,8 @@ namespace Jobsity.Web
 				endpoints.MapRazorPages();
 				endpoints.MapHub<ChatHub>("/hub");
 			});
+
+			app.ApplicationServices.UseRebus();
         }
     }
 }

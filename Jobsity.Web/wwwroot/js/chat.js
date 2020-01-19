@@ -72,7 +72,7 @@ const makeRequest = async (url, method = "GET", body) => {
 };
 
 const createChatBubble = (message) => {
-    const isCurrentUser = message.user.id === window.user.id;
+    const isCurrentUser = message.userId === window.user.id;
     const date = new Date(message.timestamp);
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -82,7 +82,7 @@ const createChatBubble = (message) => {
 		<div class="bubble media w-50 mb-3 ${isCurrentUser ? "ml-auto" : ""}" data-message-id=${message.id}>
 			<div class="media-body ${isCurrentUser ? "ml-3" : ""}">
 				<div class="bg-${isCurrentUser ? "primary" : "light"} rounded py-2 px-3 mb-2">
-					<p class="text-small"><b>${message.user.userName}</b></p>
+					<p class="text-small"><b>${message.userName}</b></p>
 					<p class="text-small mb-0 ${isCurrentUser ? "text-white" : "text-muted"}">${message.text}</p>
 				</div>
 				<p class="small text-muted">${date.getHours()}:${date.getMinutes()} | ${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}</p>

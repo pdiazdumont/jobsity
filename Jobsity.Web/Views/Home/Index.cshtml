@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Jobsity.Web.Application.Users
+@inject UserManager<User> UserManager
+
+@{
+	ViewData["Title"] = "Jobsity Chat";
+}
+
+@section Scripts {
+	<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+	<script src="~/js/chat.js" asp-append-version="true"></script>
+	<script>
+		window.user = {
+			id: "@UserManager.GetUserId(User)"
+		}
+	</script>
+}
+
+<div class="container">
+	<div class="row rounded-lg overflow-hidden shadow">
+		<div class="col-7 px-0">
+			<div id="chat-box" class="px-4 py-5 chat-box bg-white">
+				<div>
+					<div class="spinner-border text-primary">
+						<span class="sr-only">Loading...</span>
+					</div>
+					Loading messages
+				</div>
+			</div>
+			<form id="chat-form" action="#" class="bg-light">
+				<div class="input-group">
+					<input id="message" type="text" placeholder="Type a message" class="form-control rounded-0 border-0 py-4 bg-light" disabled autofocus>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

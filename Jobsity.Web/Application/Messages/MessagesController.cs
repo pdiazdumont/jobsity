@@ -80,7 +80,7 @@ namespace Jobsity.Web.Application.Messages
 			return Ok();
 		}
 
-		public Event CreateMessagePostedEvent(Message message) =>
+		public MessagePostedEvent CreateMessagePostedEvent(Message message) =>
 			new MessagePostedEvent
 			{
 				Text = message.Text,

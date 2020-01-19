@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Jobsity.Events;
+using Jobsity.Events.Messages;
 
 namespace Jobsity.Web.Application.Publishers
 {
 	public interface IPublisher
     {
-        Task PublishAsync(Event @event);
+        Task PublishAsync(MessagePostedEvent @event);
     }
 }

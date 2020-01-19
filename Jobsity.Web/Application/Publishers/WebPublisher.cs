@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Jobsity.Events;
+using Jobsity.Events.Messages;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Jobsity.Web.Application.Publishers
@@ -13,7 +13,7 @@ namespace Jobsity.Web.Application.Publishers
             _hub = hub;
         }
 
-        public async Task PublishAsync(Event @event)
+        public async Task PublishAsync(MessagePostedEvent @event)
         {
 			await _hub.Clients.All.SendAsync(@event.Type.ToString(), @event);
         }

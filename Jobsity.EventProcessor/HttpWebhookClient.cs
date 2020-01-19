@@ -35,7 +35,7 @@ namespace Jobsity.EventProcessor
 			{
 				Method = HttpMethod.Post,
 				RequestUri = new Uri(url),
-				Content = new StringContent(body)
+				Content = new StringContent(body, Encoding.UTF8, "application/json")
 			};
 
 			request.Headers.Add(_requestTimestampHeaderName, timestamp.ToString());

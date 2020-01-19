@@ -48,7 +48,7 @@ namespace Jobsity.EventProcessor
 					var hookRetryPolicy = HttpPolicyExtensions
 											.HandleTransientHttpError()
 											.OrResult(response => response.StatusCode != HttpStatusCode.OK)
-											.WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(1));
+											.WaitAndRetryAsync(2, _ => TimeSpan.FromMilliseconds(500));
 
 					services
 						.AddHttpClient<IWebhookClient, HttpWebhookClient>()

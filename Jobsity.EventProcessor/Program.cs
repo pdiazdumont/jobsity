@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
+using Jobsity.EventProcessor.Data;
 using Jobsity.Events.Messages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
+using Polly.Extensions.Http;
 using Rebus.Config;
 using Rebus.Routing.TypeBased;
 using Rebus.ServiceProvider;
@@ -30,6 +35,7 @@ namespace Jobsity.EventProcessor
 				.ConfigureServices((hostingContext, services) =>
 				{
 					services.AddLogging();
+					services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(hostingContext.Configuration.GetConnectionString("DefaultConnection")));
 					services.AutoRegisterHandlersFromAssemblyOf<Program>();
 					services.AddRebus(configure =>
 					{
@@ -38,7 +44,15 @@ namespace Jobsity.EventProcessor
 								.Transport(t => t.UseSqlServer(hostingContext.Configuration["ConnectionStrings:DefaultConnection"], "events"))
 								.Routing(r => r.TypeBased().Map<MessagePostedEvent>("events"));
 					});
-					services.AddHttpClient<IWebhookClient, HttpWebhookClient>();
+
+					var hookRetryPolicy = HttpPolicyExtensions
+											.HandleTransientHttpError()
+											.OrResult(response => response.StatusCode != HttpStatusCode.OK)
+											.WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(1));
+
+					services
+						.AddHttpClient<IWebhookClient, HttpWebhookClient>()
+						.AddPolicyHandler(hookRetryPolicy);
 				})
 				.Build();
 

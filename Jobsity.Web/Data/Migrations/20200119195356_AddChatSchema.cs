@@ -13,7 +13,9 @@ namespace Jobsity.Web.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
+                    Secret = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

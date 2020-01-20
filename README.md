@@ -37,3 +37,4 @@ Once a new message is posted the application checks if it's a normal text or a c
 ## Considerations
 - To work with queues [Rebus](https://github.com/rebus-org/Rebus) was used, it is an abstraction for multiple service bus providers. The project is configured to use sql server as a "service bus" meaning that it will work out of the box using the project's database. Minor changes are required in order to configure Rebus to use Azure service bus or RabbitMq.
 - The approach for the bots is that multiple can be registered, due to time it was not implemented, the stock quote bot has been included as part of the original database migration. The bot implementation follows some practices by [Slack](https://api.slack.com/events-api#events_api_request_urls) about request validation.
+- Getting the stock price could take 2 or 3 seconds due to the external request, this can be improved, for example, using cache or tweaking the issue in order to let the user know

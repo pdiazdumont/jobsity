@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Jobsity.Bots.Stock.Api.Services;
-using Jobsity.Events.Messages;
+using Jobsity.Events;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Jobsity.Bots.Stock.Api.Controllers
@@ -11,7 +10,7 @@ namespace Jobsity.Bots.Stock.Api.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IStooqClient _stooq;
-		private readonly Regex _commandRegex = new Regex(@"\/stock=([^=& ]*)");
+		private readonly string _commandName = "stock";
 
         public EventsController(IStooqClient stooq)
         {
@@ -20,20 +19,18 @@ namespace Jobsity.Bots.Stock.Api.Controllers
 
         [HttpPost]
         [Route("events")]
-        public async Task<ActionResult> ProcessEvent(MessagePostedEvent @event)
+        public async Task<ActionResult> ProcessEvent(CommandPostedEvent @event)
         {
 			if (!CanHandle(@event))
 			{
 				return Ok();
 			}
 
-			var matches = _commandRegex.Match(@event.Text);
-
 			try
 			{
-				var result = await _stooq.GetStockValue(matches.Groups[1].ToString());
+				var result = await _stooq.GetStockValue(@event.CommandArguments);
 
-
+				// TODO: call API to send event
 			}
 			catch (Exception _)
 			{
@@ -43,7 +40,9 @@ namespace Jobsity.Bots.Stock.Api.Controllers
             return Ok();
         }
 
-		private bool CanHandle(MessagePostedEvent @event) => _commandRegex.IsMatch(@event.Text);
+		private bool CanHandle(CommandPostedEvent @event) =>
+			@event.CommandName.Equals(_commandName, StringComparison.InvariantCultureIgnoreCase) &&
+			!string.IsNullOrEmpty(@event.CommandArguments);
 
 		private string CreateSuccessMessage(string stockName, long stockPrice) => $"{stockName} quote is ${stockPrice} per share";
 

@@ -37,7 +37,7 @@ namespace Jobsity.Bots.Middlewares.RequestValidation
 
 					request.Body = new MemoryStream(Encoding.UTF8.GetBytes(body));
 
-					return string.Equals(BitConverter.ToString(hash).Replace("-", "").ToLower(), signature);
+					return string.Equals(BitConverter.ToString(hash).Replace("-", string.Empty).ToLower(), signature);
                 }
             }
         }

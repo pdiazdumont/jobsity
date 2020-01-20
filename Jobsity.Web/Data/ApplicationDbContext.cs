@@ -1,5 +1,5 @@
 ﻿using Jobsity.Web.Application.Bots;
-using Jobsity.Web.Application.Messages;
+using Jobsity.Web.Application.Posts;
 using Jobsity.Web.Application.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +18,12 @@ namespace Jobsity.Web.Data
 			base.OnModelCreating(modelBuilder);
 
 			modelBuilder
-				.Entity<Message>()
-				.ToTable("Messages")
+				.Entity<Post>()
+				.ToTable("Posts")
 				.HasKey(message => message.Id);
 
 			modelBuilder
-				.Entity<Message>()
+				.Entity<Post>()
 				.HasOne(message => message.User);
 
 			modelBuilder
@@ -33,10 +33,10 @@ namespace Jobsity.Web.Data
 
 			modelBuilder
 				.Entity<User>()
-				.HasMany(user => user.Messages);
+				.HasMany(user => user.Posts);
 		}
 
-		public DbSet<Message> Messages { get; set; }
+		public DbSet<Post> Posts { get; set; }
 
 		public DbSet<Bot> Bots { get; set; }
     }

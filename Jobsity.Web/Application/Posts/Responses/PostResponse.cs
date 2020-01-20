@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Jobsity.Web.Application.Messages.Responses
+namespace Jobsity.Web.Application.Posts.Responses
 {
-	public class GetMessageResponse
+	public class PostResponse
 	{
 		public string Text { get; set; }
 		public string UserId { get; set; }

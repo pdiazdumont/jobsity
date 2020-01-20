@@ -41,8 +41,8 @@ namespace Jobsity.EventProcessor
 					{
 						return configure
 								.Logging(l => l.ColoredConsole())
-								.Transport(t => t.UseSqlServer(hostingContext.Configuration["ConnectionStrings:DefaultConnection"], "events"))
-								.Routing(r => r.TypeBased().Map<MessagePostedEvent>("events"));
+								.Transport(t => t.UseSqlServer(hostingContext.Configuration["ConnectionStrings:DefaultConnection"], "rebus"))
+								.Routing(r => r.TypeBased().Map<MessagePostedEvent>("rebus"));
 					});
 
 					var hookRetryPolicy = HttpPolicyExtensions

@@ -23,7 +23,7 @@ namespace Jobsity.Web.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
+                name: "Posts",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -34,9 +34,9 @@ namespace Jobsity.Web.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Messages_AspNetUsers_UserId",
+                        name: "FK_Posts_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -44,8 +44,8 @@ namespace Jobsity.Web.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_UserId",
-                table: "Messages",
+                name: "IX_Posts_UserId",
+                table: "Posts",
                 column: "UserId");
         }
 
@@ -55,7 +55,7 @@ namespace Jobsity.Web.Data.Migrations
                 name: "Bots");
 
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "Posts");
         }
     }
 }

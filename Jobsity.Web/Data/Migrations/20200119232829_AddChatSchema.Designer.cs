@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jobsity.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200119195356_AddChatSchema")]
+    [Migration("20200119232829_AddChatSchema")]
     partial class AddChatSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,7 +42,7 @@ namespace Jobsity.Web.Data.Migrations
                     b.ToTable("Bots");
                 });
 
-            modelBuilder.Entity("Jobsity.Web.Application.Messages.Message", b =>
+            modelBuilder.Entity("Jobsity.Web.Application.Posts.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,7 +62,7 @@ namespace Jobsity.Web.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Jobsity.Web.Application.Users.User", b =>
@@ -265,10 +265,10 @@ namespace Jobsity.Web.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Jobsity.Web.Application.Messages.Message", b =>
+            modelBuilder.Entity("Jobsity.Web.Application.Posts.Post", b =>
                 {
                     b.HasOne("Jobsity.Web.Application.Users.User", "User")
-                        .WithMany("Messages")
+                        .WithMany("Posts")
                         .HasForeignKey("UserId");
                 });
 

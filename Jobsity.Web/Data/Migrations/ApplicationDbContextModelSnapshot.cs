@@ -40,7 +40,7 @@ namespace Jobsity.Web.Data.Migrations
                     b.ToTable("Bots");
                 });
 
-            modelBuilder.Entity("Jobsity.Web.Application.Messages.Message", b =>
+            modelBuilder.Entity("Jobsity.Web.Application.Posts.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace Jobsity.Web.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Jobsity.Web.Application.Users.User", b =>
@@ -263,10 +263,10 @@ namespace Jobsity.Web.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Jobsity.Web.Application.Messages.Message", b =>
+            modelBuilder.Entity("Jobsity.Web.Application.Posts.Post", b =>
                 {
                     b.HasOne("Jobsity.Web.Application.Users.User", "User")
-                        .WithMany("Messages")
+                        .WithMany("Posts")
                         .HasForeignKey("UserId");
                 });
 

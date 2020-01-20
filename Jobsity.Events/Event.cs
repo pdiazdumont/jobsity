@@ -6,6 +6,6 @@ namespace Jobsity.Events
     {
 		public EventType Type { get; set; }
 		public Guid EventId { get; set; } = Guid.NewGuid();
-		public DateTimeOffset EventTimestamp { get; set; } = DateTimeOffset.UtcNow;
+		public DateTimeOffset EventTimestamp { get; set; }
 	}
 }

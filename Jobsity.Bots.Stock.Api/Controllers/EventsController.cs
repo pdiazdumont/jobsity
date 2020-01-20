@@ -10,12 +10,14 @@ namespace Jobsity.Bots.Stock.Api.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IStooqClient _stooq;
+        private readonly IJobsityClient _jobsity;
 		private readonly string _commandName = "stock";
 
-        public EventsController(IStooqClient stooq)
+        public EventsController(IStooqClient stooq, IJobsityClient jobsity)
         {
             _stooq = stooq;
-        }
+			_jobsity = jobsity;
+		}
 
         [HttpPost]
         [Route("events")]
@@ -30,11 +32,11 @@ namespace Jobsity.Bots.Stock.Api.Controllers
 			{
 				var result = await _stooq.GetStockValue(@event.CommandArguments);
 
-				// TODO: call API to send event
+				await _jobsity.NewPost(CreateSuccessMessage(@event.CommandArguments, result));
 			}
 			catch (Exception _)
 			{
-
+				await _jobsity.NewPost(CreateFailureMessage(@event.CommandArguments));
 			}
 
             return Ok();
@@ -44,7 +46,7 @@ namespace Jobsity.Bots.Stock.Api.Controllers
 			@event.CommandName.Equals(_commandName, StringComparison.InvariantCultureIgnoreCase) &&
 			!string.IsNullOrEmpty(@event.CommandArguments);
 
-		private string CreateSuccessMessage(string stockName, long stockPrice) => $"{stockName} quote is ${stockPrice} per share";
+		private string CreateSuccessMessage(string stockName, decimal stockPrice) => $"{stockName} quote is ${stockPrice} per share";
 
 		private string CreateFailureMessage(string stockName) => $"Quote for {stockName} couldn't be found";
 	}

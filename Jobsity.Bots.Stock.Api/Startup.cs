@@ -25,7 +25,11 @@ namespace Jobsity.Bots.Stock.Api
             {
                 client.BaseAddress = new Uri(Configuration["StooqApiUrl"]);
             });
-            services.AddRequestValidation(Configuration);
+			services.AddHttpClient<IJobsityClient, HttpJobsityClient>(client =>
+			{
+				client.BaseAddress = new Uri(Configuration["JobsityApiUrl"]);
+			});
+			services.AddRequestValidation(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

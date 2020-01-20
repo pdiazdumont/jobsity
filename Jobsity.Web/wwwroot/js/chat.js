@@ -88,7 +88,7 @@ const createChatBubble = (message, isBot) => {
 					<p class="text-small"><b>${isBot ? "Bot" : message.userName}</b></p>
 					<p class="text-small mb-0 ${isCurrentUser ? "text-white" : "text-muted"}">${message.text}</p>
 				</div>
-				<p class="small text-muted">${date.getHours()}:${date.getMinutes()} | ${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}</p>
+				<p class="small text-muted">${date.getHours()}:${date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()} | ${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}</p>
 			</div>
 		</div>
 	`;

@@ -76,7 +76,7 @@ namespace Jobsity.Web.Application.Posts
 			_bus.Send(new NewTextPostMessage
 			{
 				Text = text,
-				UserId = Guid.Parse(user.Id)
+				UserId = user == null ? Guid.Empty : Guid.Parse(user.Id)
 			});
 
 		private Task HandleCommandPost(string text)

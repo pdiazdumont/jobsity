@@ -38,6 +38,15 @@ namespace Jobsity.Web.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Bots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Stock Quote Bot",
+                            Secret = "8f742231b10e8888abcd99yyyzzz85a5",
+                            Url = "https://localhost:44308/events"
+                        });
                 });
 
             modelBuilder.Entity("Jobsity.Web.Application.Posts.Post", b =>

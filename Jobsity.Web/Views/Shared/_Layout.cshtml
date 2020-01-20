@@ -20,10 +20,6 @@
 						aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				@if (SignInManager.IsSignedIn(User))
-				{
-					<a class="navbar-brand" asp-area="" asp-controller="Bots" asp-action="Index">Bots</a>
-				}
 				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 					<partial name="_LoginPartial" />
 				</div>

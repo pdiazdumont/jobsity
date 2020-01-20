@@ -43,6 +43,11 @@ namespace Jobsity.Web.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Bots",
+                columns: new[] { "Id", "Name", "Secret", "Url" },
+                values: new object[] { 1, "Stock Quote Bot", "8f742231b10e8888abcd99yyyzzz85a5", "https://localhost:44308/events" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
                 table: "Posts",

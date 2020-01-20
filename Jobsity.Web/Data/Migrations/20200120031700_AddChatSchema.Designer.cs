@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jobsity.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200119232829_AddChatSchema")]
+    [Migration("20200120031700_AddChatSchema")]
     partial class AddChatSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,15 @@ namespace Jobsity.Web.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Bots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Stock Quote Bot",
+                            Secret = "8f742231b10e8888abcd99yyyzzz85a5",
+                            Url = "https://localhost:44308/events"
+                        });
                 });
 
             modelBuilder.Entity("Jobsity.Web.Application.Posts.Post", b =>

@@ -27,9 +27,20 @@ namespace Jobsity.Web.Data
 				.HasOne(message => message.User);
 
 			modelBuilder
-                .Entity<Bot>()
-                .ToTable("Bots")
-                .HasKey(bot => bot.Id);
+				.Entity<Bot>()
+				.ToTable("Bots")
+				.HasKey(bot => bot.Id);
+
+			// hardcoded, the bots should be registered in a different way and the secret stored properly
+			modelBuilder
+				.Entity<Bot>()
+				.HasData(new Bot
+				{
+					Id = 1,
+					Name = "Stock Quote Bot",
+					Url = "https://localhost:44308/events",
+					Secret = "8f742231b10e8888abcd99yyyzzz85a5"
+				});
 
 			modelBuilder
 				.Entity<User>()

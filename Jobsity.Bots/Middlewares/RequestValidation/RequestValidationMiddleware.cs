@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Jobsity.Bots.Middlewares.RequestValidation;
 using Microsoft.AspNetCore.Http;
 
-namespace Jobsity.Bots.Middlewares
+namespace Jobsity.Bots.Middlewares.RequestValidation
 {
     public class RequestValidationMiddleware
     {
